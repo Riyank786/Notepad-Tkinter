@@ -12,60 +12,82 @@ import os
 
 
 def newFile(event=None):
+    '''
+    This function make the new file in notepad. 
+    It just clear the whole text area means delete the whole text from the text area  if some another file was open.
+    And set the title as Untitled.
+    '''
     global file
     root.title("Untitled - Notepad")
     file = None
     TextArea.delete(1.0,END)
 
 def openFile(event=None):
+    '''
+    This function can open the existing file store in the pc. 
+    '''
     global file
-    file = askopenfilename(defaultextension=".txt",filetypes=[("All Files","*.*"),("Text Document","*.txt")])
+    file = askopenfilename(defaultextension=".txt",filetypes=[("All Files","*.*"),("Text Document","*.txt")]) # this opens the prompt to select the existing file from the local storage.
 
     if file == "":
         file = None
     else:
         TextArea.delete(1.0,END)
         f = open(file, "r")
-        TextArea.insert(1.0,f.read())
+        TextArea.insert(1.0,f.read())            # inserting the data of the selected file in the text area.
         root.title(os.path.basename(file.replace(".txt","")) + " - Notepad")
         f.close()
         showline()
 
 def saveFile(event=None):
+    '''
+    This function saves the file in local storage.
+    '''
     global file
     global savedFile
-    if file == None:
-        file = asksaveasfilename(initialfile = "Untitled.txt",defaultextension=".txt",filetypes=[("All Files","*.*"),("Text Document","*.txt")])
+    if file == None:        # save as a newfile
+        file = asksaveasfilename(initialfile = "Untitled.txt",defaultextension=".txt",filetypes=[("All Files","*.*"),("Text Document","*.txt")]) # this open the prompt to save the file
         if file == "":
             file = None
         else:
-            # save as a newfile
             f = open(file,"w")
             f.write(TextArea.get(1.0,END))
             f.close()
             savedFile = True
             root.title(os.path.basename(file.replace(".txt","")) + " - Notepad")
 
-    else:
-        # save the newfile
+    else:       # save the existing file
+        
         f = open(file,"w")
         f.write(TextArea.get(1.0,END))
         f.close()
         savedFile = True
 
 def cut(event=None):
+    '''
+    The selected area is cut and copy to the clipboard.
+    '''
     TextArea.event_generate(("<<Cut>>"))
 
 def copy(event=None):
+    '''
+    To copy the selected area.
+    '''
     TextArea.event_generate(("<<Copy>>"))
 
 def paste(event=None):
+    '''
+    To paste the content of the clipboard
+    '''
     TextArea.event_generate(("<<Paste>>"))
 
 def about():
-    tmsg.showinfo("Notepad","Notepad By Patel Riyank")
+    tmsg.showinfo("Notepad","Notepad By Patel Riyank")   # opens one dialogbox with the specific information here it is "Notepad By Patel Riyan"
 
 def showline(event=None):
+    '''
+    It shows the position of the pointer(blinker) of the textarea.
+    '''
     line = int(TextArea.index(INSERT).split(".")[0])
     column = int(TextArea.index(INSERT).split(".")[1])
     showLC.config(text=f"Ln  {line}, Col  {column+1}")
@@ -99,12 +121,14 @@ def key_press(event):
     savedFile=False
 
 if __name__ == "__main__": 
+    
     root = Tk()
     root.title("Untitled - Notepad")
     root.geometry("644x534")
 
     savedFile = True
-    # Let's create a menubar
+    
+    # Creating a menubar
     MenuBar = Menu(root)
 
     ##### FILE MENU START #####
@@ -185,6 +209,7 @@ if __name__ == "__main__":
     showLC=Label(footer,text="Ln  1, Col  1",padx=30,relief=RAISED)
     showLC.pack(side=RIGHT)  
 
+    # Defining shortcuts.
     root.bind("<Control-s>",saveFile)
     root.bind("<Control-o>",openFile)
     root.bind("<Control-n>",newFile)
@@ -200,4 +225,4 @@ if __name__ == "__main__":
     root.bind('<Key>', key_press)
     TextArea.bind("<KeyRelease>",showline) 
     root.protocol('WM_DELETE_WINDOW', doSomething)
-    root.mainloop()
+    root.mainloop()  # this is the mainloop which can run continously to show the all above stuff.
