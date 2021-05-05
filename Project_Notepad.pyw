@@ -1,5 +1,4 @@
 # Author : Patel Riyank 
-# location : Mars 
 # Date : 27 Dec 2020 
 
 #################### NOTEPAD - GUI ############################
@@ -82,7 +81,7 @@ def paste(event=None):
     TextArea.event_generate(("<<Paste>>"))
 
 def about():
-    tmsg.showinfo("Notepad","Notepad By Patel Riyank")   # opens one dialogbox with the specific information here it is "Notepad By Patel Riyan"
+    tmsg.showinfo("Notepad","Notepad By Patel Riyank")   # opens one dialogbox with the specific information here it is "Notepad By Patel Riyank"
 
 def showline(event=None):
     '''
@@ -225,4 +224,4 @@ if __name__ == "__main__":
     root.bind('<Key>', key_press)
     TextArea.bind("<KeyRelease>",showline) 
     root.protocol('WM_DELETE_WINDOW', doSomething)
-    root.mainloop()  # this is the mainloop which can run continously to show the all above stuff.
+    root.mainloop()  # this is the mainloop which can run continously to show the all above Content.
